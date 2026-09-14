@@ -1,5 +1,7 @@
+"use client"
+
 import { environmentManager, QueryClient, QueryClientProvider } from "@tanstack/react-query"
-import { ReactNode } from "react"
+import type { ReactNode } from "react"
 
 function MakeQueryClient() {
     return new QueryClient({
