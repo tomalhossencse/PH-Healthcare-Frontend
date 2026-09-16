@@ -1,6 +1,8 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { useGetMe } from "@/hooks/auth.hook"
+import { toast } from "@/components/ui/toast"
+import { useGetMe, useLogout } from "@/hooks/auth.hook"
+import { useQueryClient } from "@tanstack/react-query"
 import Link from "next/link"
 
 const Header = () => {
@@ -11,7 +13,28 @@ const Header = () => {
 
     const { data, isLoading } = useGetMe()
 
-    console.log(data)
+
+    const { mutate: logout } = useLogout()
+    const queryClient = useQueryClient()
+
+    const handleLogout = () => {
+        logout(undefined, {
+            onSuccess: () => {
+                toast.add({
+                    title: "Logged out suceessfully",
+                    type: "success"
+                })
+                queryClient.removeQueries({ queryKey: ["user"] })
+
+            },
+            onError: () => {
+                toast.add({
+                    title: "Logged failed",
+                    type: "error"
+                })
+            }
+        })
+    }
 
     return (
         <header className="w-full h-16 border border-b">
@@ -21,7 +44,7 @@ const Header = () => {
                     {routes.map((route) => (<Link key={route.url} href={route.url}>{route.name}</Link>))}
                 </nav>
                 <div>
-                    <Button variant="outline" render={<Link href="/login">Login</Link>} nativeButton={false}></Button>
+                    {!isLoading && !data ? <Button variant="outline" render={<Link href="/login">Login</Link>} nativeButton={false}></Button> : <Button onClick={handleLogout} variant="destructive">Logout</Button>}
                 </div>
             </div>
         </header>

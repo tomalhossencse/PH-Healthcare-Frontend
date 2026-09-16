@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const layout = () => {
-    return (
-        <div>Dashboard Layout</div>
-    )
-}
+  return <div>Dashboard Layout</div>;
+};
 
-export default layout
+export default layout;

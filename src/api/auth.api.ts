@@ -5,7 +5,7 @@ export function userLogin(payload: { email: string; password: string }) {
 }
 
 export function userLogout() {
-  return apiClient("/auth/logut", { method: "POST" });
+  return apiClient("/auth/logout", { method: "POST" });
 }
 
 export function getMe() {
