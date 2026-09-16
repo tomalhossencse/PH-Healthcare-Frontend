@@ -1,4 +1,6 @@
+"use client"
 import { Button } from "@/components/ui/button"
+import { useGetMe } from "@/hooks/auth.hook"
 import Link from "next/link"
 
 const Header = () => {
@@ -6,6 +8,10 @@ const Header = () => {
         { name: "Home", url: "/" },
         { name: "About", url: "/about" },
     ]
+
+    const { data, isLoading } = useGetMe()
+
+    console.log(data)
 
     return (
         <header className="w-full h-16 border border-b">
