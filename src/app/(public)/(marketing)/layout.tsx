@@ -1,8 +1,16 @@
-import React from 'react'
+import type { ReactNode } from 'react'
+import Footer from '@/components/layout/public/Footer'
+import Header from '@/components/layout/public/Header'
 
-const layout = () => {
+const layout = ({ children }: { children: ReactNode }) => {
     return (
-        <div>This is Layout Component</div>
+        <div className='flex flex-col min-h-screen'>
+            <Header />
+            <main className='flex-1'>
+                {children}
+            </main>
+            <Footer />
+        </div>
     )
 }
 
