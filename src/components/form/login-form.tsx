@@ -5,9 +5,11 @@ import { Button } from "../ui/button"
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field"
 import { Input } from "../ui/input"
 import { useState } from "react"
-import { Eye, EyeClosed } from "lucide-react"
+import { Eye, EyeClosed, Loader2 } from "lucide-react"
 import { useLogin } from "@/hooks/auth.hook"
 import { useRouter } from "next/navigation"
+import { toast } from "../ui/toast"
+import { Spinner } from "../ui/spinner"
 
 const LoginForm = () => {
 
@@ -31,10 +33,21 @@ const LoginForm = () => {
 
             login(loginData, {
                 onSuccess: (res) => {
+                    toast.add({
+                        title: "Login Successful",
+                        description: "Welcome back!",
+                        type: "success"
+                    })
+
                     router.push("/")
                 },
                 onError: (err) => {
                     console.log(err)
+                    toast.add({
+                        title: "Login Failed",
+                        description: "Please check your email and password.",
+                        type: "error"
+                    })
                 },
             })
         }
@@ -74,7 +87,15 @@ const LoginForm = () => {
                             </Field>)
                         }}
                     </form.Field>
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={loginPending}>
+                        {loginPending ? (
+                            <>
+                                <Spinner /> Logging in...
+                            </>
+                        ) : (
+                            "Login"
+                        )}
+                    </Button>
                 </FieldGroup>
 
             </form>
