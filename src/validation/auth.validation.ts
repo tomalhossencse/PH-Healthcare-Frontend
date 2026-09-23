@@ -19,7 +19,7 @@ export const patientRegistrationSchema = z
         name: z
             .string("Name is required")
             .min(3, "Name must be at least 3 characters long")
-            .max(10, "Name must be at most 10 characters long"),
+            .max(30, "Name must be at most 30 characters long"),
         email: z.email("Not email!!"),
         password: z
             .string()
