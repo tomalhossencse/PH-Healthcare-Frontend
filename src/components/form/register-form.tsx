@@ -19,6 +19,7 @@ import z from "zod";
 import { toast } from "../ui/toast";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import { useRegistration } from "@/hooks";
+import { Spinner } from "../ui/spinner";
 
 export function RegisterForm() {
     const router = useRouter();
@@ -35,7 +36,8 @@ export function RegisterForm() {
         confirmPassword: "Password123!",
     };
 
-    const { mutate: registration } = useRegistration();
+    const { mutate: registration, isPending: registerPending } =
+        useRegistration();
 
     const form = useForm({
         defaultValues,
@@ -341,7 +343,15 @@ export function RegisterForm() {
                         }}
                     </form.Field>
 
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" disabled={registerPending}>
+                        {registerPending ? (
+                            <>
+                                <Spinner /> Registering...
+                            </>
+                        ) : (
+                            "Register"
+                        )}
+                    </Button>
                 </FieldGroup>
             </form>
 

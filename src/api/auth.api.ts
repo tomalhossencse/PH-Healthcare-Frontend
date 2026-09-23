@@ -3,7 +3,7 @@ import {
     LoginPayload,
     RegistrationPayload,
     VerifyAccountPayload,
-} from "@/types/auth.type";
+} from "@/types";
 
 export function userLogin(payload: LoginPayload) {
     return apiClient("/auth/login", { method: "POST", body: payload });

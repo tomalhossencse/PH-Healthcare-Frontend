@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
+import Link from "next/link";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -175,6 +176,16 @@ const LoginForm = () => {
             </form>
             <FieldSeparator>OR</FieldSeparator>
             <GoogleLoginComponent />
+
+            <div className="text-center text-sm text-muted-foreground">
+                Don&apos;t have an account?{" "}
+                <Link
+                    href="/register"
+                    className="font-medium underline underline-offset-4 hover:text-primary"
+                >
+                    Register
+                </Link>
+            </div>
         </div>
     );
 };

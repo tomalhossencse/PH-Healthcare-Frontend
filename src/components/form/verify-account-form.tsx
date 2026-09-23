@@ -45,12 +45,14 @@ export default function VerifyAccountForm({
     }, [email]);
 
     useEffect(() => {
-        if (resendTimer <= 0) {
-            return;
-        }
-
         const timer = setInterval(() => {
-            setResendTimer((prev) => prev - 1);
+            setResendTimer((prev) => {
+                if (prev <= 1) {
+                    clearInterval(timer);
+                    return 0;
+                }
+                return prev - 1;
+            });
         }, 1000);
 
         return () => clearInterval(timer);
