@@ -13,7 +13,7 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
 import { useLogin } from "@/hooks/auth.hook";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
@@ -22,6 +22,7 @@ import Link from "next/link";
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
+    const searchParams = useSearchParams();
 
     const { mutate: login, isPending: loginPending } = useLogin();
     const form = useForm({
@@ -39,14 +40,16 @@ const LoginForm = () => {
             };
 
             login(loginData, {
-                onSuccess: (res) => {
+                onSuccess: () => {
                     toast.add({
                         title: "Login Successful",
                         description: "Welcome back!",
                         type: "success",
                     });
 
-                    router.push("/");
+                    const redirectTo = searchParams.get("redirectTo") || "/";
+
+                    router.replace(redirectTo);
                 },
                 onError: (err) => {
                     console.log(err);
