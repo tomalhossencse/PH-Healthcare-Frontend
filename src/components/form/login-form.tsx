@@ -12,12 +12,13 @@ import {
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { useLogin } from "@/hooks/auth.hook";
+import { useGetMe, useLogin } from "@/hooks/auth.hook";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import Link from "next/link";
+import { UserRole } from "@/types";
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +26,7 @@ const LoginForm = () => {
     const searchParams = useSearchParams();
 
     const { mutate: login, isPending: loginPending } = useLogin();
+
     const form = useForm({
         defaultValues: {
             email: "",
@@ -40,14 +42,26 @@ const LoginForm = () => {
             };
 
             login(loginData, {
-                onSuccess: () => {
+                onSuccess: (res) => {
                     toast.add({
                         title: "Login Successful",
                         description: "Welcome back!",
                         type: "success",
                     });
 
-                    const redirectTo = searchParams.get("redirectTo") || "/";
+                    const userRole: UserRole = res?.data?.user?.role;
+
+                    let dashboardRoute = "/";
+                    if (userRole === "ADMIN" || userRole === "SUPER_ADMIN") {
+                        dashboardRoute = "/admin";
+                    } else if (userRole === "DOCTOR") {
+                        dashboardRoute = "/doctor";
+                    } else if (userRole === "PATIENT") {
+                        dashboardRoute = "/patient";
+                    }
+
+                    const redirectTo =
+                        searchParams.get("redirectTo") || dashboardRoute;
 
                     router.replace(redirectTo);
                 },

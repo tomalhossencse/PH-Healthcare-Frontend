@@ -2,9 +2,11 @@
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/toast";
 import { useGetMe, useLogout } from "@/hooks/auth.hook";
+import { UserRole } from "@/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { HeartPlusIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
     const routes = [
@@ -13,9 +15,20 @@ const Header = () => {
     ];
 
     const { data, isLoading } = useGetMe();
+    const router = useRouter();
 
     const { mutate: logout } = useLogout();
     const queryClient = useQueryClient();
+
+    const role: UserRole = !!data?.data ? data.data.role : null;
+
+    if (role === "ADMIN" || role === "SUPER_ADMIN") {
+        routes.push({ name: "Admin", url: "/admin" });
+    } else if (role === "DOCTOR") {
+        routes.push({ name: "Doctor", url: "/doctor" });
+    } else if (role === "PATIENT") {
+        routes.push({ name: "Patient", url: "/patient" });
+    }
 
     const handleLogout = () => {
         logout(undefined, {
@@ -25,6 +38,7 @@ const Header = () => {
                     type: "success",
                 });
                 queryClient.removeQueries({ queryKey: ["user"] });
+                router.push("/login");
             },
             onError: () => {
                 toast.add({
