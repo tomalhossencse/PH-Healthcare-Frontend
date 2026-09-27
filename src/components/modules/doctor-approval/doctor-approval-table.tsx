@@ -1,7 +1,6 @@
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -9,10 +8,13 @@ import {
 } from "@/components/ui/table";
 import DoctorReviewSheet from "./doctor-review-sheet";
 import { useSuspenseGetAllDoctors } from "@/hooks";
-const DoctorApprovalTable = () => {
-    const { data } = useSuspenseGetAllDoctors({ limit: "10" });
-    const doctors = data?.data || [];
+import { IDoctorParams } from "@/types";
 
+interface Props extends IDoctorParams {}
+
+const DoctorApprovalTable = ({ ...params }: Props) => {
+    const { data } = useSuspenseGetAllDoctors(params);
+    const doctors = data?.data || [];
     return (
         <div className="border rounded-md">
             <Table className="w-full">

@@ -74,3 +74,16 @@ export interface IDoctor {
 }
 
 export type IAllDoctorsResponse = IApiResponse<IDoctor[]>;
+
+export interface IDoctorParams {
+    verificationStatus?: VerificationStatus;
+    searchTerm?: string;
+    specialization?: string;
+    licenseNumber?: string;
+    page?: number;
+    limit?: number;
+    sortBy?: string;
+    sortOrder?: "asc" | "desc";
+    email?: string;
+    name?: string;
+}
