@@ -8,16 +8,10 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import DoctorReviewSheet from "./doctor-review-sheet";
-import { useGetAllDoctors } from "@/hooks";
-import AuthLoading from "@/components/auth/auth-loading";
-import { IDoctor } from "@/types";
+import { useSuspenseGetAllDoctors } from "@/hooks";
 const DoctorApprovalTable = () => {
-    const { data, isLoading } = useGetAllDoctors({ limit: "10" });
+    const { data } = useSuspenseGetAllDoctors({ limit: "10" });
     const doctors = data?.data || [];
-
-    if (isLoading) {
-        return <AuthLoading label="doctor loading" />;
-    }
 
     return (
         <div className="border rounded-md">

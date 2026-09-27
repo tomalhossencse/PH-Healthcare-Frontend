@@ -4,7 +4,7 @@ import DoctorApprovalTable from "./doctor-approval-table";
 
 const DoctorApprovalTabs = () => {
     return (
-        <Tabs defaultValue="pending">
+        <Tabs defaultValue="all">
             <TabsList>
                 <TabsTrigger value="All">All</TabsTrigger>
                 <TabsTrigger value="pending">Pending</TabsTrigger>
