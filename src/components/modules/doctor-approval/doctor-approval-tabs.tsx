@@ -1,6 +1,8 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DoctorApprovalTable from "./doctor-approval-table";
+import { Suspense } from "react";
+import DoctorApprovalLoading from "./doctor-approval-loading";
 
 const DoctorApprovalTabs = () => {
     return (
@@ -12,7 +14,9 @@ const DoctorApprovalTabs = () => {
                 <TabsTrigger value="rejected">Rejected</TabsTrigger>
             </TabsList>
             <TabsContent value="All">
-                <DoctorApprovalTable />
+                <Suspense fallback={<DoctorApprovalLoading />}>
+                    <DoctorApprovalTable />
+                </Suspense>
             </TabsContent>
             <TabsContent value="pending">
                 View pending doctor applications.

@@ -1,3 +1,5 @@
+"use client";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table,
     TableBody,
@@ -7,12 +9,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import DoctorReviewSheet from "./doctor-review-sheet";
-import { useSuspenseGetAllDoctors } from "@/hooks";
-const DoctorApprovalTable = () => {
-    const { data } = useSuspenseGetAllDoctors({ limit: "10" });
-    const doctors = data?.data || [];
-
+const DoctorApprovalLoading = () => {
     return (
         <div className="border rounded-md">
             <Table className="w-full">
@@ -28,17 +25,10 @@ const DoctorApprovalTable = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {doctors.map((doctor) => (
-                        <TableRow key={doctor.id}>
-                            <TableCell className="font-medium">
-                                {doctor.name}
-                            </TableCell>
-                            <TableCell>{doctor.email}</TableCell>
-                            <TableCell>{doctor.specialization}</TableCell>
-                            <TableCell>{doctor.licenseNumber}</TableCell>
-                            <TableCell>{doctor.experienceYears}</TableCell>
-                            <TableCell className="text-right">
-                                <DoctorReviewSheet />
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <TableRow key={i}>
+                            <TableCell className="font-medium " colSpan={6}>
+                                <Skeleton className="h-5 w-full bg-muted" />
                             </TableCell>
                         </TableRow>
                     ))}
@@ -48,4 +38,4 @@ const DoctorApprovalTable = () => {
     );
 };
 
-export default DoctorApprovalTable;
+export default DoctorApprovalLoading;
