@@ -25,6 +25,11 @@ export const adminRoutes = [
                 url: "#",
                 isActive: true,
             },
+            {
+                title: "Logout",
+                url: "#",
+                onclick: "logout",
+            },
         ],
     },
 ];

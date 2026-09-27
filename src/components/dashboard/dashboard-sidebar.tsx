@@ -69,15 +69,17 @@ export function DashboardSidebar({ role }: { role: UserRole }) {
                                 {item.items.map((item) => (
                                     <SidebarMenuItem key={item.title}>
                                         <SidebarMenuButton
+                                            onClick={() => {
+                                                if (
+                                                    item?.onclick === "logout"
+                                                ) {
+                                                    handleLogout();
+                                                }
+                                            }}
                                             render={<Link href={item.url} />}
                                             isActive={pathname === item.url}
                                         >
                                             {item.title}
-                                        </SidebarMenuButton>
-                                        <SidebarMenuButton
-                                            onClick={handleLogout}
-                                        >
-                                            Logout
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
                                 ))}

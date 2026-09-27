@@ -1,3 +1,6 @@
+import { IApiResponse } from "./api.type";
+import { IUser } from "./user.type";
+
 export interface DoctorApplicationData {
     user: {
         name: string;
@@ -20,3 +23,54 @@ export interface DoctorApplicationPayload {
     additionalFiles: File[];
     data: DoctorApplicationData;
 }
+
+export interface IDoctorQuery {
+    searchTerm?: string;
+    specialization?: string;
+    licenseNumber?: string;
+    verificationStatus?: string;
+    page?: string;
+    limit?: string;
+    sortBy?: string;
+    sortOrder?: string;
+}
+
+export interface IAdditionalFile {
+    url: string;
+    publicId: string;
+}
+
+export enum VerificationStatus {
+    PENDING = "PENDING",
+    APPROVED = "APPROVED",
+    REJECTED = "REJECTED",
+}
+
+export interface IDoctor {
+    id: string;
+    userId: string;
+    name: string;
+    email: string;
+    contactNumber?: string | null;
+    licenseNumber: string;
+    specialization: string;
+    qualifications: string;
+    experienceYears: number;
+    consultationFee?: number | string | null;
+    bio?: string | null;
+    address?: string | null;
+    resume?: string | null;
+    resumePublicId: string;
+    additionalFiles: IAdditionalFile[] | null;
+    verificationStatus: VerificationStatus;
+    rejectionReason?: string | null;
+    reviewedAt?: string | null;
+    reviewedBy?: string | null;
+    createdAt: string;
+    updatedAt: string;
+    deletedAt?: string | null;
+    isDeleted: boolean;
+    user: IUser;
+}
+
+export type IAllDoctorsResponse = IApiResponse<IDoctor[]>;

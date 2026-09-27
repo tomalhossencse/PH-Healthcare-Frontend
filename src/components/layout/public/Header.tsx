@@ -23,11 +23,11 @@ const Header = () => {
     const role: UserRole = !!data?.data ? data.data.role : null;
 
     if (role === "ADMIN" || role === "SUPER_ADMIN") {
-        routes.push({ name: "Admin", url: "/admin" });
+        routes.push({ name: "Dashboard", url: "/admin" });
     } else if (role === "DOCTOR") {
-        routes.push({ name: "Doctor", url: "/doctor" });
+        routes.push({ name: "Dashboard", url: "/doctor" });
     } else if (role === "PATIENT") {
-        routes.push({ name: "Patient", url: "/patient" });
+        routes.push({ name: "Dashboard", url: "/patient" });
     }
 
     const handleLogout = () => {
@@ -35,6 +35,7 @@ const Header = () => {
             onSuccess: () => {
                 toast.add({
                     title: "Logged out suceessfully",
+                    description: "You have been logged out successfully.",
                     type: "success",
                 });
                 queryClient.removeQueries({ queryKey: ["user"] });
@@ -43,6 +44,7 @@ const Header = () => {
             onError: () => {
                 toast.add({
                     title: "Logged failed",
+                    description: "Failed to log out.",
                     type: "error",
                 });
             },

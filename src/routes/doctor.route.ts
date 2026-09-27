@@ -25,6 +25,11 @@ export const doctorRoutes = [
                 url: "#",
                 isActive: true,
             },
+            {
+                title: "Logout",
+                url: "#",
+                onclick: "logout",
+            },
         ],
     },
 ];
