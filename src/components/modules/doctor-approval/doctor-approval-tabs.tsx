@@ -8,6 +8,7 @@ import { titleCase } from "@/utils";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import DoctorReviewSheet from "./doctor-review-sheet";
+import useDebounce from "@/hooks/debounce.hool";
 
 const verificationStatusOptions: (VerificationStatus | "ALL")[] = [
     "ALL",
@@ -20,15 +21,16 @@ const DoctorApprovalTabs = () => {
     const [tab, setTab] = useState(verificationStatusOptions[0]);
     const [selectedId, setSelectedId] = useState<string>("");
     const [searchInput, setSearchInput] = useState("");
+    const debounceSearch = useDebounce(searchInput, 500);
 
     const queryParams: IDoctorParams = {
         // verificationStatus: tab === "ALL" ? undefined : tab,
         ...(tab === "ALL" ? {} : { verificationStatus: tab }),
         page: 1,
         limit: 10,
-        searchTerm: searchInput,
+        searchTerm: debounceSearch,
     };
-    console.log(searchInput);
+    console.log(debounceSearch);
 
     return (
         <>
