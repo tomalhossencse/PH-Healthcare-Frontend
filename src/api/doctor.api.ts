@@ -2,6 +2,7 @@ import apiClient from "@/lib/apiClient";
 import {
     DoctorApplicationPayload,
     IAllDoctorsResponse,
+    IApproveDoctorPayload,
     IDoctorParams,
     IDoctorQuery,
     VerifyAccountPayload,
@@ -32,4 +33,11 @@ export function verifyDoctorAccount(payload: VerifyAccountPayload) {
 
 export function getAllDoctors(params: IDoctorParams) {
     return apiClient<IAllDoctorsResponse>("/doctor/all-doctors", { params });
+}
+
+export function approveDoctor(payload: IApproveDoctorPayload) {
+    return apiClient("/doctor/approve-doctor", {
+        method: "PATCH",
+        body: payload,
+    });
 }

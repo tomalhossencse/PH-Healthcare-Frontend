@@ -7,6 +7,7 @@ import { IDoctorParams, VerificationStatus } from "@/types";
 import { titleCase } from "@/utils";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import DoctorReviewSheet from "./doctor-review-sheet";
 
 const verificationStatusOptions: (VerificationStatus | "ALL")[] = [
     "ALL",
@@ -17,13 +18,17 @@ const verificationStatusOptions: (VerificationStatus | "ALL")[] = [
 
 const DoctorApprovalTabs = () => {
     const [tab, setTab] = useState(verificationStatusOptions[0]);
+    const [selectedId, setSelectedId] = useState<string>("");
+    const [searchInput, setSearchInput] = useState("");
 
     const queryParams: IDoctorParams = {
         // verificationStatus: tab === "ALL" ? undefined : tab,
         ...(tab === "ALL" ? {} : { verificationStatus: tab }),
         page: 1,
         limit: 10,
+        searchTerm: searchInput,
     };
+    console.log(searchInput);
 
     return (
         <>
@@ -32,9 +37,12 @@ const DoctorApprovalTabs = () => {
                     <div className="md:w-1/3 relative mt-4">
                         <Search className="absolute inset-0 size-3 top-1/2 -translate-y-1/2 left-2" />
                         <Input
+                            onChange={(e) => {
+                                setSearchInput(e.target.value);
+                            }}
                             className="pl-8"
                             type="search"
-                            placeholder="Search by name, email"
+                            placeholder="Search by name or email"
                         />
                     </div>
                     <TabsList>
@@ -47,8 +55,16 @@ const DoctorApprovalTabs = () => {
                 </div>
                 <TabsContent value={tab}>
                     <Suspense fallback={<DoctorApprovalLoading />}>
-                        <DoctorApprovalTable {...queryParams} />
+                        <DoctorApprovalTable
+                            {...queryParams}
+                            handleReview={setSelectedId}
+                        />
                     </Suspense>
+                    <DoctorReviewSheet
+                        selectedId={selectedId}
+                        onClose={() => setSelectedId("")}
+                        {...queryParams}
+                    />
                 </TabsContent>
             </Tabs>
         </>

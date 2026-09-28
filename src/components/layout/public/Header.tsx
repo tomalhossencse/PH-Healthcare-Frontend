@@ -12,6 +12,7 @@ const Header = () => {
     const routes = [
         { name: "Home", url: "/" },
         { name: "About", url: "/about" },
+        { name: "Apply As Doctor", url: "/apply" },
     ];
 
     const { data, isLoading } = useGetMe();

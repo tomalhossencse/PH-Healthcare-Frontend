@@ -87,3 +87,9 @@ export interface IDoctorParams {
     email?: string;
     name?: string;
 }
+
+export interface IApproveDoctorPayload {
+    doctorId: string;
+    verificationStatus: Exclude<VerificationStatus, VerificationStatus.PENDING>;
+    rejectReason?: string;
+}
