@@ -28,7 +28,7 @@ const DoctorApprovalTabs = () => {
         ...(tab === "ALL" ? {} : { verificationStatus: tab }),
         page: 1,
         limit: 10,
-        searchTerm: debounceSearch,
+        ...(debounceSearch ? { search: debounceSearch } : {}),
     };
     console.log(debounceSearch);
 
