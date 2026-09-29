@@ -1,4 +1,4 @@
-import {  HeartPlusIcon } from "lucide-react";
+import { HeartPlusIcon } from "lucide-react";
 import Link from "next/link";
 import LoginForm from "@/components/form/login-form";
 import Image from "next/image";

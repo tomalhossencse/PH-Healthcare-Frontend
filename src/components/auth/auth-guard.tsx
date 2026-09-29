@@ -6,34 +6,34 @@ import { usePathname, useRouter } from "next/navigation";
 import AuthLoading from "./auth-loading";
 
 const AuthGuard = ({ children }: { children: React.ReactNode }) => {
-    const { data, isPending, isError } = useGetMe();
-    const router = useRouter();
-    const pathname = usePathname();
-    // console.log(
-    //     "AuthGuard data:",
-    //     data,
-    //     "isPending:",
-    //     isPending,
-    //     "isError:",
-    //     isError,
-    // );
+  const { data, isPending, isError } = useGetMe();
+  const router = useRouter();
+  const pathname = usePathname();
+  // console.log(
+  //     "AuthGuard data:",
+  //     data,
+  //     "isPending:",
+  //     isPending,
+  //     "isError:",
+  //     isError,
+  // );
 
-    const user = data?.data;
-    const isAuthenticated = !!user;
+  const user = data?.data;
+  const isAuthenticated = !!user;
 
-    useEffect(() => {
-        if (!isPending && (isError || !isAuthenticated)) {
-            router.replace(`/login?redirectTo=${encodeURIComponent(pathname)}`);
-        }
-    }, [isPending, isError, isAuthenticated, router]);
-
-    if (isPending) {
-        return <AuthLoading />;
+  useEffect(() => {
+    if (!isPending && (isError || !isAuthenticated)) {
+      router.replace(`/login?redirectTo=${encodeURIComponent(pathname)}`);
     }
-    if (isAuthenticated) {
-        return <>{children}</>;
-    }
+  }, [isPending, isError, isAuthenticated, router]);
+
+  if (isPending) {
     return <AuthLoading />;
+  }
+  if (isAuthenticated) {
+    return <>{children}</>;
+  }
+  return <AuthLoading />;
 };
 
 export default AuthGuard;
