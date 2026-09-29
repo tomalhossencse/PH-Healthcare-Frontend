@@ -12,6 +12,7 @@ import { IDoctorParams } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction } from "react";
 import TablePagination from "@/components/shared/table-pagination";
+import { SearchX } from "lucide-react";
 
 interface Props extends IDoctorParams {
     handleReview: Dispatch<SetStateAction<string>>;
@@ -28,6 +29,7 @@ const DoctorApprovalTable = ({
     const doctors = data?.data || [];
     const totalPages = data?.meta?.totalPages || 0;
     const page = params.page || 1;
+    const isEmpty = doctors.length === 0;
     return (
         <>
             <div className="border rounded-md">
@@ -43,50 +45,76 @@ const DoctorApprovalTable = ({
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {doctors.map((doctor) => (
-                            <TableRow key={doctor.id}>
-                                <TableCell className="font-medium">
-                                    {doctor.name}
-                                </TableCell>
-                                <TableCell>{doctor.email}</TableCell>
-                                <TableCell>{doctor.specialization}</TableCell>
-                                <TableCell>{doctor.licenseNumber}</TableCell>
-                                <TableCell>{doctor.experienceYears}</TableCell>
-                                <TableCell className="text-right">
-                                    {doctor.user.emailVerified ? (
-                                        <Button
-                                            className="w-28"
-                                            variant={
-                                                doctor.verificationStatus ===
-                                                "PENDING"
-                                                    ? "default"
-                                                    : "outline"
-                                            }
-                                            disabled={
-                                                doctor.verificationStatus !==
-                                                "PENDING"
-                                            }
-                                            onClick={() =>
-                                                handleReview(doctor.id)
-                                            }
-                                        >
-                                            Review
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            className="w-28"
-                                            variant="destructive"
-                                            onClick={() =>
-                                                handleReview(doctor.id)
-                                            }
-                                            disabled
-                                        >
-                                            Not Verified
-                                        </Button>
-                                    )}
+                        {isEmpty ? (
+                            <TableRow className="hover:bg-transparent">
+                                <TableCell colSpan={6}>
+                                    <div className="flex flex-col items-center justify-center gap-2 px-6 py-12 text-center">
+                                        <span className="rounded-full bg-muted p-3">
+                                            <SearchX className="size-5 text-muted-foreground" />
+                                        </span>
+                                        <p className="font-medium">
+                                            No doctors found
+                                        </p>
+                                        <p className="max-w-sm text-sm text-muted-foreground">
+                                            {params.searchTerm
+                                                ? `No results for "${params.searchTerm}". Try a different name or email.`
+                                                : "There are no doctors in this view yet."}
+                                        </p>
+                                    </div>
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ) : (
+                            doctors.map((doctor) => (
+                                <TableRow key={doctor.id}>
+                                    <TableCell className="font-medium">
+                                        {doctor.name}
+                                    </TableCell>
+                                    <TableCell>{doctor.email}</TableCell>
+                                    <TableCell>
+                                        {doctor.specialization}
+                                    </TableCell>
+                                    <TableCell>
+                                        {doctor.licenseNumber}
+                                    </TableCell>
+                                    <TableCell>
+                                        {doctor.experienceYears}
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        {doctor.user.emailVerified ? (
+                                            <Button
+                                                className="w-28"
+                                                variant={
+                                                    doctor.verificationStatus ===
+                                                    "PENDING"
+                                                        ? "default"
+                                                        : "outline"
+                                                }
+                                                disabled={
+                                                    doctor.verificationStatus !==
+                                                    "PENDING"
+                                                }
+                                                onClick={() =>
+                                                    handleReview(doctor.id)
+                                                }
+                                            >
+                                                Review
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                className="w-28"
+                                                variant="destructive"
+                                                onClick={() =>
+                                                    handleReview(doctor.id)
+                                                }
+                                                disabled
+                                            >
+                                                Not Verified
+                                            </Button>
+                                        )}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        )}
                     </TableBody>
                 </Table>
             </div>
