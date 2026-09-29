@@ -12,6 +12,6 @@ export default function useDebounce<T>(
       setpage(1);
     }, delay);
     return () => clearTimeout(handler);
-  }, [value, delay]);
+  }, [value, delay, setpage]);
   return debouncedValue;
 }

@@ -1,10 +1,12 @@
 import apiClient from "@/lib/apiClient";
-import {
+import type {
   DoctorApplicationPayload,
   IAllDoctorsResponse,
+  IApiResponse,
   IApproveDoctorPayload,
   IDoctorParams,
-  IDoctorQuery,
+  IPubliceDoctorProfile,
+  Schedule,
   VerifyAccountPayload,
 } from "@/types";
 
@@ -39,5 +41,28 @@ export function approveDoctor(payload: IApproveDoctorPayload) {
   return apiClient("/doctor/approve-doctor", {
     method: "PATCH",
     body: payload,
+  });
+}
+
+export function getAllPublicDoctors(params: IDoctorParams) {
+  return apiClient<IApiResponse<IPubliceDoctorProfile[]>>(
+    "doctor/public/all-doctors",
+    { params },
+  );
+}
+
+export function getAPublicDoctorProfile(doctorId: string) {
+  return apiClient<IApiResponse<IPubliceDoctorProfile>>(
+    `doctor/public/${doctorId}`,
+  );
+}
+
+export function getTodayScheduleByDoctor(params: {
+  doctorId?: string;
+  page?: number;
+  limit?: number;
+}) {
+  return apiClient<IApiResponse<Schedule[]>>("/schedule/todays-schedule", {
+    params,
   });
 }

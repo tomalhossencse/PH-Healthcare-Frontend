@@ -12,13 +12,13 @@ import {
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { Eye, EyeClosed } from "lucide-react";
-import { useGetMe, useLogin } from "@/hooks/auth.hook";
+import { useLogin } from "@/hooks/auth.hook";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "../ui/toast";
 import { Spinner } from "../ui/spinner";
 import GoogleLoginComponent from "../modules/google-login/GoogleLogin";
 import Link from "next/link";
-import { UserRole } from "@/types";
+import type { UserRole } from "@/types";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);

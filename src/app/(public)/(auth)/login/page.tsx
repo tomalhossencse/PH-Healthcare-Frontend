@@ -2,6 +2,8 @@ import { HeartPlusIcon } from "lucide-react";
 import Link from "next/link";
 import LoginForm from "@/components/form/login-form";
 import Image from "next/image";
+import { Suspense } from "react";
+import Loading from "@/components/shared/loading";
 
 export default function LoginPage() {
   return (
@@ -17,7 +19,9 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <Suspense fallback={<Loading />}>
+              <LoginForm />
+            </Suspense>
           </div>
         </div>
       </div>

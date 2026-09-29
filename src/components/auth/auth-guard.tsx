@@ -25,7 +25,7 @@ const AuthGuard = ({ children }: { children: React.ReactNode }) => {
     if (!isPending && (isError || !isAuthenticated)) {
       router.replace(`/login?redirectTo=${encodeURIComponent(pathname)}`);
     }
-  }, [isPending, isError, isAuthenticated, router]);
+  }, [isPending, isError, isAuthenticated, router, pathname]);
 
   if (isPending) {
     return <AuthLoading />;

@@ -1,5 +1,5 @@
-import { IApiResponse } from "./api.type";
-import { IUser } from "./user.type";
+import type { IApiResponse } from "./api.type";
+import type { IUser } from "./user.type";
 
 export interface DoctorApplicationData {
   user: {
@@ -92,4 +92,25 @@ export interface IApproveDoctorPayload {
   doctorId: string;
   verificationStatus: Exclude<VerificationStatus, VerificationStatus.PENDING>;
   rejectReason?: string;
+}
+
+export interface IPubliceDoctorProfile {
+  id: string;
+  name: string;
+  licenseNumber: string;
+  specialization: string;
+  qualifications: string;
+  experienceYears: number;
+  consultationFee?: number | string | null;
+  bio?: string | null;
+  createdAt: string;
+}
+
+export interface IPublicDoctorParams {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+  searchTerm?: string;
+  specialization?: string;
 }
